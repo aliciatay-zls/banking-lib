@@ -1,4 +1,4 @@
-module banking-lib
+module github.com/udemy-go-1/banking-lib
 
 go 1.20
 
