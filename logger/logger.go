@@ -10,6 +10,7 @@ var appLogger *zap.Logger //declare
 
 func init() {
 	config := zap.NewProductionConfig()
+	config.OutputPaths = []string{"../session_log.txt"}
 
 	customConfig := zap.NewProductionEncoderConfig()
 	customConfig.TimeKey = "timestamp"
