@@ -3,10 +3,12 @@ package logger
 import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"os"
 )
 
 // Wrap logger
 var appLogger *zap.Logger //declare
+var originalAppLogger *zap.Logger
 
 func init() {
 	config := zap.NewProductionConfig()
@@ -40,4 +42,21 @@ func Error(message string, fields ...zap.Field) {
 
 func Fatal(message string, fields ...zap.Field) {
 	appLogger.Fatal(message, fields...)
+}
+
+func TurnOffLogger() {
+	originalAppLogger = appLogger //save previous logger settings
+
+	config := zap.NewProductionConfig()
+	config.OutputPaths = os.DevNull
+
+	var err error
+	appLogger, err = config.Build() //initialize
+	if err != nil {
+		panic(err)
+	}
+}
+
+func TurnOnLogger() {
+	appLogger = originalAppLogger //restore previous logger settings
 }
