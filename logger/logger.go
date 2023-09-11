@@ -25,6 +25,8 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+
+	originalAppLogger = appLogger //save previous logger settings
 }
 
 // Expose its functionalities
@@ -44,19 +46,17 @@ func Fatal(message string, fields ...zap.Field) {
 	appLogger.Fatal(message, fields...)
 }
 
-func TurnOffLogger() {
-	originalAppLogger = appLogger //save previous logger settings
-
+func MuteLogger() {
 	config := zap.NewProductionConfig()
-	config.OutputPaths = os.DevNull
+	config.OutputPaths = []string{os.DevNull}
 
 	var err error
-	appLogger, err = config.Build() //initialize
+	appLogger, err = config.Build()
 	if err != nil {
 		panic(err)
 	}
 }
 
-func TurnOnLogger() {
+func UnmuteLogger() {
 	appLogger = originalAppLogger //restore previous logger settings
 }
