@@ -3,6 +3,7 @@ package logger
 import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"go.uber.org/zap/zaptest/observer"
 	"os"
 )
 
@@ -60,3 +61,21 @@ func MuteLogger() {
 func UnmuteLogger() {
 	appLogger = originalAppLogger //restore previous logger settings
 }
+
+// ReplaceWithTestLogger overrides init() that was called when this method was called with an observer logger,
+// then returns a collection of the observed logs that can be used directly in tests.
+func ReplaceWithTestLogger() *observer.ObservedLogs {
+	observerCore, observedLogs := observer.New(zap.InfoLevel)
+	observerLogger := zap.New(observerCore)
+	appLogger = observerLogger
+
+	return observedLogs
+}
+
+//Notes on ReplaceWithTestLogger()
+// observer.New(zap.InfoLevel)
+// Param LevelEnabler: decides whether a given logging level is enabled when logging a message.
+// Each concrete Level value implements a static LevelEnabler which returns true for itself and all higher logging levels.
+// = hence here info level and above messages (i.e. all levels) will be logged (messages of Info(), Error(), etc calls will be captured)
+//
+// Reference: https://medium.com/go-for-punks/handle-zap-log-messages-in-a-test-8503b25fe38f
