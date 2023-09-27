@@ -7,6 +7,12 @@ type AppError struct {
 	Message string `json:"message"`
 }
 
+func (e AppError) AsMessage() *AppError {
+	return &AppError{
+		Message: e.Message,
+	}
+}
+
 func NewNotFoundError(message string) *AppError {
 	return &AppError{
 		Code:    http.StatusNotFound,
@@ -35,8 +41,9 @@ func NewAuthenticationError(message string) *AppError {
 	}
 }
 
-func (e AppError) AsMessage() *AppError {
+func NewAuthorizationError(message string) *AppError {
 	return &AppError{
-		Message: e.Message,
+		Code:    http.StatusForbidden,
+		Message: message,
 	}
 }
