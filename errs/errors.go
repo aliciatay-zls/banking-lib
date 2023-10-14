@@ -2,6 +2,10 @@ package errs
 
 import "net/http"
 
+const MessageExpiredAccessToken = "expired access token"
+const MessageInvalidAccessToken = "invalid access token"
+const MessageRefreshToken = "expired or invalid refresh token"
+
 type AppError struct {
 	Code    int    `json:",omitempty"`
 	Message string `json:"message"`
@@ -10,6 +14,13 @@ type AppError struct {
 func (e AppError) AsMessage() *AppError {
 	return &AppError{
 		Message: e.Message,
+	}
+}
+
+func NewAppError(code int, message string) *AppError {
+	return &AppError{
+		Code:    code,
+		Message: message,
 	}
 }
 
@@ -38,6 +49,27 @@ func NewAuthenticationError(message string) *AppError {
 	return &AppError{
 		Code:    http.StatusUnauthorized,
 		Message: message,
+	}
+}
+
+func NewAuthenticationErrorDueToExpiredAccessToken() *AppError {
+	return &AppError{
+		Code:    http.StatusUnauthorized,
+		Message: MessageExpiredAccessToken,
+	}
+}
+
+func NewAuthenticationErrorDueToInvalidAccessToken() *AppError {
+	return &AppError{
+		Code:    http.StatusUnauthorized,
+		Message: MessageInvalidAccessToken,
+	}
+}
+
+func NewAuthenticationErrorDueToRefreshToken() *AppError {
+	return &AppError{
+		Code:    http.StatusUnauthorized,
+		Message: MessageRefreshToken,
 	}
 }
 
