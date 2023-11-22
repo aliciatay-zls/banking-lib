@@ -2,6 +2,7 @@ package errs
 
 import "net/http"
 
+const MessageMissingToken = "missing token"
 const MessageExpiredAccessToken = "expired access token"
 const MessageInvalidAccessToken = "invalid access token"
 const MessageRefreshToken = "expired or invalid refresh token"
@@ -76,6 +77,13 @@ func NewAuthenticationErrorDueToRefreshToken() *AppError {
 func NewAuthorizationError(message string) *AppError {
 	return &AppError{
 		Code:    http.StatusForbidden,
+		Message: message,
+	}
+}
+
+func NewConflictError(message string) *AppError {
+	return &AppError{
+		Code:    http.StatusConflict,
 		Message: message,
 	}
 }
