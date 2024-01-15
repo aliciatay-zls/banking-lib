@@ -2,9 +2,11 @@ package formValidator
 
 import (
 	"bufio"
+	"bytes"
+	"embed"
+	_ "embed"
 	"errors"
 	"github.com/go-playground/validator/v10"
-	"os"
 	"regexp"
 )
 
@@ -12,6 +14,9 @@ const UsernameAlias = "un"
 
 var appValidator *validator.Validate
 var codeCountryMap map[string]string
+
+//go:embed codes.txt countries.txt
+var data embed.FS
 
 // Create initializes a global validator that uses a custom username validator, as well as a global map of
 // countries' codes to their names.
@@ -40,20 +45,18 @@ func useCustomUsernameValidator() {
 func createCodeCountryMap() {
 	codeCountryMap = map[string]string{}
 
-	f1, err := os.Open("./formValidator/codes.txt")
+	f1, err := data.ReadFile("codes.txt")
 	if err != nil {
 		panic(err)
 	}
-	defer f1.Close()
 
-	f2, err := os.Open("./formValidator/countries.txt")
+	f2, err := data.ReadFile("countries.txt")
 	if err != nil {
 		panic(err)
 	}
-	defer f2.Close()
 
-	s1 := bufio.NewScanner(f1)
-	s2 := bufio.NewScanner(f2)
+	s1 := bufio.NewScanner(bytes.NewReader(f1))
+	s2 := bufio.NewScanner(bytes.NewReader(f2))
 	for s1.Scan() {
 		s2.Scan()
 		codeCountryMap[s1.Text()] = s2.Text()
