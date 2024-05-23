@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"embed"
-	_ "embed"
 	"errors"
 	"github.com/go-playground/validator/v10"
 	"regexp"
@@ -26,8 +25,9 @@ func Create() {
 	createCodeCountryMap()
 }
 
-// useCustomUsernameValidator registers a custom validator for a username field that needs to be filled,
-// starts with alphabet, only alphanumeric and underscore allowed, min 6 chars and max 20 chars long.
+// useCustomUsernameValidator registers an alias for a custom validator on a username field, which ensures that
+// it is not an empty string, it starts with an alphabet, only contains alphanumeric and underscore characters,
+// and is a minimum of 6 and maximum of 20 characters long.
 func useCustomUsernameValidator() {
 	unRegex := regexp.MustCompile("^[A-Za-z]\\w{5,19}$")
 
