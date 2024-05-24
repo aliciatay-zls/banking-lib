@@ -30,7 +30,8 @@ func init() {
 	originalAppLogger = appLogger //save previous logger settings
 }
 
-// Expose its functionalities
+/* Expose its functionalities */
+
 func Info(message string, fields ...zap.Field) { //[]zap.Field
 	appLogger.Info(message, fields...) //unpack slice
 }
@@ -46,6 +47,8 @@ func Error(message string, fields ...zap.Field) {
 func Fatal(message string, fields ...zap.Field) {
 	appLogger.Fatal(message, fields...)
 }
+
+/* Additional functionalities */
 
 func MuteLogger() {
 	config := zap.NewProductionConfig()

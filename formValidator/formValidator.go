@@ -25,9 +25,9 @@ func Create() {
 	createCodeCountryMap()
 }
 
-// useCustomUsernameValidator registers an alias for a custom validator on a username field, which ensures that
-// it is not an empty string, it starts with an alphabet, only contains alphanumeric and underscore characters,
-// and is a minimum of 6 and maximum of 20 characters long.
+// useCustomUsernameValidator registers a custom validator for a username field under UsernameAlias. The validator
+// ensures that the username is not an empty string, starts with an alphabet, only contains alphanumeric and
+// underscore characters, and is a minimum of 6 and maximum of 20 characters long.
 func useCustomUsernameValidator() {
 	unRegex := regexp.MustCompile("^[A-Za-z]\\w{5,19}$")
 

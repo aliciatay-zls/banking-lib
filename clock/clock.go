@@ -2,7 +2,7 @@ package clock
 
 import "time"
 
-const FormatDateTime = "2006-01-02 15:04:05" //from time.RFC3339, modified based on banking.sql
+const FormatDateTime = "2006-01-02 15:04:05" //modified from time.RFC3339
 
 type Clock interface {
 	Now() time.Time
