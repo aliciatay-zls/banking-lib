@@ -13,11 +13,11 @@ type RealClock struct {
 }
 
 func (c RealClock) Now() time.Time {
-	return time.Now()
+	return time.Now().UTC()
 }
 
 func (c RealClock) NowAsString() string {
-	return c.Now().Format(FormatDateTime)
+	return c.Now().UTC().Format(FormatDateTime)
 }
 
 type StaticClock struct {
@@ -29,5 +29,5 @@ func (c StaticClock) Now() time.Time {
 }
 
 func (c StaticClock) NowAsString() string {
-	return c.Now().Format(FormatDateTime)
+	return c.Now().UTC().Format(FormatDateTime)
 }

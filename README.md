@@ -26,10 +26,10 @@ If needed call `UnmuteLogger()` to re-enable logging.
 * The alias `un` is reserved for a custom validator (`useCustomUsernameValidator`). 
 
 ### `clock`
-* Provides actual time (wraps `time` package) for use in actual code and dummy time for use in test code.
+* Provides actual time in UTC (wraps `time` package) for use in actual code and dummy time for use in test code.
 * To prevent failing tests due to current time being different when mocking and when running actual code: 
 pass around the `StaticClock` object in the code during testing in place of the `RealClock` object, so that the 
-time "frozen" within each test.
+time is "frozen" within each test.
   * Example: `accountService.go` and `accountService_test.go` of [banking app](https://github.com/aliciatay-zls/banking).
 
 ## Development
